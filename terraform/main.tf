@@ -10,7 +10,12 @@ terraform {
     }
   }
 
-  backend "azurerm" {}
+  backend "azurerm" {
+    resource_group_name = "rg_tfstorage"
+    storage_account_name = "satfstorage2023"
+    container_name = "tf-state"
+    key = "terraform.tfstate"
+  }
 
   required_version = ">= 1.1.0"
 }
