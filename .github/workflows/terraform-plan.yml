@@ -26,53 +26,23 @@ jobs:
     steps:
   # Checkout the repository to the GitHub Actions runner
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
   # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v1
         with:
-          #terraform_version: '>=1.1.0'
+          terraform_version: '>=1.1.0'
           terraform_wrapper: false
   
-      # # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-      # - name: Terraform Init
-      #   run: terraform init
+      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+      - name: Terraform Init
+        run: terraform init
 
-      # # # Generates an execution plan for Terraform
-      # # - name: Terraform Plan
-      # #   run: terraform plan -input=false
+      # # Generates an execution plan for Terraform
+      # - name: Terraform Plan
+      #   run: terraform plan -input=false
 
-      # # Apply Terraform changes, first time
-      # - name: Terraform Apply
-      #   working-directory: ./terraform
-      #   run: terraform apply -auto-approve -input=false
-
-      - name: 'Terraform Init'
-        uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 0.14.8
-          tf_actions_subcommand: 'init'
-          tf_actions_working_dir: "./terraform"
-   
-      - name: 'Terraform Validate'
-        uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 0.14.8
-          tf_actions_subcommand: 'validate'
-          tf_actions_working_dir: "./terraform"
-           
-      - name: 'Terraform Plan'
-        uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 0.14.8
-          tf_actions_subcommand: 'plan'
-          tf_actions_working_dir: "./terraform"
-   
+      # Apply Terraform changes, first time
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'
-        uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 0.14.8
-          tf_actions_subcommand: 'apply'
-          tf_actions_working_dir: "./terraform"
+        run: terraform apply -auto-approve -input=false
