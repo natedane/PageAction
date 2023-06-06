@@ -25,24 +25,3 @@ variable "common" {
   description = "common name to use"
   default = "nated"
 }
-
-# Define Terraform provider
-terraform {
-  required_version = ">= 1.3"
-  backend "azurerm" {
-    resource_group_name  = "${var.common}-tfstate-rg"
-    storage_account_name =  "${lower(var.common)}tf${random_string.tf-name.result}"
-    container_name       = "main-tfstate"
-    key                  = "actions.tfstate"
-  }
-  required_providers {
-    azurerm = {
-      version = "~>3.2"
-      source  = "hashicorp/azurerm"
-    }
-  }
-}
-# Configure the Azure provider
-provider "azurerm" { 
-  features {}  
-}
