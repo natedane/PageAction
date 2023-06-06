@@ -39,6 +39,11 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
-      # Generates an execution plan for Terraform
-      - name: Terraform Plan
-        run: terraform plan -input=false
+      # # Generates an execution plan for Terraform
+      # - name: Terraform Plan
+      #   run: terraform plan -input=false
+
+      # Apply Terraform changes, first time
+      - name: Terraform Apply
+        working-directory: ./terraform
+        run: terraform apply -auto-approve -input=false

@@ -38,7 +38,7 @@ resource "random_string" "tf-name" {
 }
 # Create a Resource Group for the Terraform State File
 resource "azurerm_resource_group" "state-rg" {
-  name = "${lower(var.common)}-tfstate-rg"
+  name = "rg_tfstorage"
   location = var.location
   
   lifecycle {
@@ -48,12 +48,12 @@ resource "azurerm_resource_group" "state-rg" {
 # Create a Storage Account for the Terraform State File
 resource "azurerm_storage_account" "state-sta" {
   depends_on = [azurerm_resource_group.state-rg]  
-  name = "${lower(var.common)}tf${random_string.tf-name.result}"
+  name = "satfstorage2023"
   resource_group_name = azurerm_resource_group.state-rg.name
   location = azurerm_resource_group.state-rg.location
   account_kind = "StorageV2"
   account_tier = "Standard"
-  access_tier = "Hot"
+  access_tier = "Cool"
   account_replication_type = "ZRS"
   enable_https_traffic_only = true
    
@@ -65,6 +65,6 @@ resource "azurerm_storage_account" "state-sta" {
 # Create a Storage Container for the Core State File
 resource "azurerm_storage_container" "main-container" {
   depends_on = [azurerm_storage_account.state-sta]   
-  name = "main-tfstate"
+  name = "tf-state"
   storage_account_name = azurerm_storage_account.state-sta.name
 }
