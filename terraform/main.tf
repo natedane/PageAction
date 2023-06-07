@@ -1,18 +1,18 @@
 terraform {
-  # required_providers {
-  #   azurerm = {
-  #     source  = "hashicorp/azurerm"
-  #     version = "~> 3.0.2"
-  #   }
-  #   azuread = {
-  #     source  = "hashicorp/azuread"
-  #     version = "=2.15.0"
-  #   }
-  # }
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.0.2"
+    }
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "=2.15.0"
+    }
+  }
 
   backend "azurerm" {
     resource_group_name = "rg_tfstorage"
-    storage_account_name = "satfstorage20232"
+    storage_account_name = "satfstorage2023"
     container_name = "tf-state"
     key = "terraform.tfstate"
   }
