@@ -12,16 +12,16 @@ variable "location" {
   default = "centralus"
 }
 
-# azure tenant id
-variable "MICROSOFT_PROVIDER_AUTHENTICATION_TENANT_ID" {
-  type = string
-  description = "id for tenant"
-  sensitive = true
-}
+# # azure tenant id
+# variable "MICROSOFT_PROVIDER_AUTHENTICATION_TENANT_ID" {
+#   type = string
+#   description = "id for tenant"
+#   sensitive = true
+# }
 
-# common name
-variable "common" {
-  type = string
-  description = "common name to use"
-  default = "nated"
-}
+# # common name
+# variable "common" {
+#   type = string
+#   description = "common name to use"
+#   default = "nated"
+# }
