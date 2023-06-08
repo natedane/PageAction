@@ -11,8 +11,8 @@ terraform {
   }
 
   backend "azurerm" {
-    resource_group_name = "rg_tfstorage2"
-    storage_account_name = "satfstorage20232"
+    resource_group_name = "rg_tfstorage"
+    storage_account_name = "satfstorage2023"
     container_name = "tf-state"
     key = "terraform.tfstate"
   }
@@ -38,7 +38,7 @@ resource "random_string" "tf-name" {
 }
 # Create a Resource Group for the Terraform State File
 resource "azurerm_resource_group" "state-rg" {
-  name = "rg_tfstorage2"
+  name = "rg_tfstorage"
   location = var.location
   
   lifecycle {
@@ -48,7 +48,7 @@ resource "azurerm_resource_group" "state-rg" {
 # Create a Storage Account for the Terraform State File
 resource "azurerm_storage_account" "state-sta" {
   depends_on = [azurerm_resource_group.state-rg]  
-  name = "satfstorage20232"
+  name = "satfstorage2023"
   resource_group_name = azurerm_resource_group.state-rg.name
   location = azurerm_resource_group.state-rg.location
   account_kind = "StorageV2"
