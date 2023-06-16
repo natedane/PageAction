@@ -68,3 +68,22 @@ resource "azurerm_storage_container" "main-container" {
   name = "tf-state"
   storage_account_name = azurerm_storage_account.state-sta.name
 }
+
+resource "azurerm_app_service_plan" "app_service_plan" {
+  name                = "myappservice-plan"
+  location            = azurerm_resource_group.resource_group.location
+  resource_group_name = azurerm_resource_group.resource_group.name
+
+  sku {
+    tier = "Standard"
+    size = "S1"
+  }
+}
+
+resource "azurerm_app_service" "app_service" {
+  name                = "nateApp"
+  location            = azurerm_resource_group.resource_group.location
+  resource_group_name = azurerm_resource_group.resource_group.name
+  app_service_plan_id = azurerm_app_service_plan.app_service_plan.id
+
+}
