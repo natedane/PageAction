@@ -71,8 +71,8 @@ resource "azurerm_storage_container" "main-container" {
 
 resource "azurerm_app_service_plan" "app_service_plan" {
   name                = "myappservice-plan"
-  location            = azurerm_resource_group.resource_group.location
-  resource_group_name = azurerm_resource_group.resource_group.name
+  location            = azurerm_resource_group.state-rg.location
+  resource_group_name = azurerm_resource_group.state-rg.name
 
   sku {
     tier = "Standard"
@@ -82,8 +82,8 @@ resource "azurerm_app_service_plan" "app_service_plan" {
 
 resource "azurerm_app_service" "app_service" {
   name                = "nateApp"
-  location            = azurerm_resource_group.resource_group.location
-  resource_group_name = azurerm_resource_group.resource_group.name
+  location            = azurerm_resource_group.state-rg.location
+  resource_group_name = azurerm_resource_group.state-rg.name
   app_service_plan_id = azurerm_app_service_plan.app_service_plan.id
 
 }
