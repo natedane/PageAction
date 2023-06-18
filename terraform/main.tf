@@ -69,15 +69,13 @@ resource "azurerm_storage_container" "main-container" {
   storage_account_name = azurerm_storage_account.state-sta.name
 }
 
-resource "azurerm_app_service_plan" "app_service_plan" {
+resource "azurerm_service_plan" "app_service_plan" {
   name                = "myappservice-plan"
   location            = azurerm_resource_group.state-rg.location
   resource_group_name = azurerm_resource_group.state-rg.name
+  os_type = "Linux"
+  sku_name = "F1"
 
-  sku {
-    tier = "Standard"
-    size = "S1"
-  }
 }
 
 resource "azurerm_app_service" "app_service" {
