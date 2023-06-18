@@ -68,3 +68,23 @@ resource "azurerm_storage_container" "main-container" {
   name = "tf-state"
   storage_account_name = azurerm_storage_account.state-sta.name
 }
+
+resource "azurerm_service_plan" "service_plan" {
+  name                = "myappservice-plan"
+  location            = azurerm_resource_group.state-rg.location
+  resource_group_name = azurerm_resource_group.state-rg.name
+  os_type = "Linux"
+  sku_name = "F1"
+
+}
+
+resource "azurerm_linux_web_app" "app" {
+  name                = "nateApp"
+  location            = azurerm_resource_group.state-rg.location
+  resource_group_name = azurerm_resource_group.state-rg.name
+  service_plan_id      = azurerm_service_plan.service_plan.id
+
+  site_config{
+    
+  }
+}

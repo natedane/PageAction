@@ -11,7 +11,7 @@ permissions:
     
 jobs:
   terraform:
-    name: 'Terraform'
+    name: 'Terraform apply'
     env:
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
@@ -26,11 +26,11 @@ jobs:
         shell: bash
 
     steps:
-  # Checkout the repository to the GitHub Actions runner
+      # Checkout the repository to the GitHub Actions runner
       - name: Checkout
         uses: actions/checkout@v3
 
-  # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+      # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
@@ -49,5 +49,38 @@ jobs:
 
       # Apply Terraform changes
       - name: Terraform Apply
+        id: tfApply
         working-directory: ./terraform
-        run: terraform apply -auto-approve -input=false
+        run: |
+          terraform apply -auto-approve -input=false
+          app_plan = terraform output app_plan
+
+  deploy_webapp:
+    name: 'deploy_webapp'
+    needs: terraform
+    env:
+      AZURE_WEBAPP_NAME: nateApp 
+      #AZURE_WEBAPP_PACKAGE_PATH: 'my-app-path'
+      NODE_VERSION: 16
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@main
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          
+      #build test and install npm project
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --if-present
+          npm run test --if-present
+
+      - name: 'Deploy to Azure WebApp'
+        uses: azure/webapps-deploy@v2
+        with: 
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ steps.tfApply.outputs.app_plan }}
+          #package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
