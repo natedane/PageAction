@@ -9,5 +9,5 @@ output "terraform_state_storage_container_main" {
 }
 
 output "app_plan"{
-  value = azurerm_app_service_plan.app_service_plan.id
+  value = azurerm_service_plan.service_plan.id
 }

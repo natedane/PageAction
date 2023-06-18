@@ -69,7 +69,7 @@ resource "azurerm_storage_container" "main-container" {
   storage_account_name = azurerm_storage_account.state-sta.name
 }
 
-resource "azurerm_service_plan" "app_service_plan" {
+resource "azurerm_service_plan" "service_plan" {
   name                = "myappservice-plan"
   location            = azurerm_resource_group.state-rg.location
   resource_group_name = azurerm_resource_group.state-rg.name
@@ -78,10 +78,13 @@ resource "azurerm_service_plan" "app_service_plan" {
 
 }
 
-resource "azurerm_app_service" "app_service" {
+resource "azurerm_linux_web_app" "app" {
   name                = "nateApp"
   location            = azurerm_resource_group.state-rg.location
   resource_group_name = azurerm_resource_group.state-rg.name
-  app_service_plan_id = azurerm_app_service_plan.app_service_plan.id
+  service_plan_id      = azurerm_service_plan.service_plan.id
 
+  site_config{
+    
+  }
 }
