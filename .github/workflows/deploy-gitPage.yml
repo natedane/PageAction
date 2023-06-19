@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 16
         
-      - uses: bahmutov/npm-install@v3
+      - uses: bahmutov/npm-install@v1
 
       - name: Build project
         run: npm run build
