@@ -60,7 +60,7 @@ jobs:
     name: 'deploy_webapp'
     needs: terraform
     env:
-      AZURE_WEBAPP_NAME: nateApp 
+      AZURE_WEBAPP_NAME: nateapp-2023619 
       #AZURE_WEBAPP_PACKAGE_PATH: 'my-app-path'
       NODE_VERSION: 16
     runs-on: ubuntu-latest

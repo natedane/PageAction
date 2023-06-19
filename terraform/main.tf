@@ -85,6 +85,11 @@ resource "azurerm_linux_web_app" "app" {
   service_plan_id      = azurerm_service_plan.service_plan.id
   https_only            = true
   site_config { 
-    minimum_tls_version = "1.2"
+    application_stack {
+      node_version      = "16-lts"
+    }
+    always_on = false
+    use_32_bit_worker = true
+
   }
 }
