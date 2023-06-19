@@ -54,7 +54,6 @@ jobs:
         working-directory: ./terraform
         run: |
           terraform apply -auto-approve -input=false
-          app_plan = terraform output app_plan
 
   deploy_webapp:
     name: 'deploy_webapp'
