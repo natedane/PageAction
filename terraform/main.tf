@@ -79,12 +79,12 @@ resource "azurerm_service_plan" "service_plan" {
 }
 
 resource "azurerm_linux_web_app" "app" {
-  name                = "nateApp"
+  name                = "nateapp-2023619"
   location            = var.location_sp
   resource_group_name = azurerm_resource_group.state-rg.name
   service_plan_id      = azurerm_service_plan.service_plan.id
-
-  site_config{
-    
+  https_only            = true
+  site_config { 
+    minimum_tls_version = "1.2"
   }
 }
