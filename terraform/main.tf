@@ -71,7 +71,7 @@ resource "azurerm_storage_container" "main-container" {
 
 resource "azurerm_service_plan" "service_plan" {
   name                = "myappservice-plan"
-  location            = azurerm_resource_group.state-rg.location
+  location            = var.location_sp
   resource_group_name = azurerm_resource_group.state-rg.name
   os_type = "Linux"
   sku_name = "F1"
@@ -80,7 +80,7 @@ resource "azurerm_service_plan" "service_plan" {
 
 resource "azurerm_linux_web_app" "app" {
   name                = "nateApp"
-  location            = azurerm_resource_group.state-rg.location
+  location            = var.location_sp
   resource_group_name = azurerm_resource_group.state-rg.name
   service_plan_id      = azurerm_service_plan.service_plan.id
 
