@@ -12,6 +12,13 @@ variable "location" {
   default = "centralus"
 }
 
+# azure region
+variable "location_sp" {
+  type = string
+  description = "Azure region where resources will be created"
+  default = "eastus"
+}
+
 # # azure tenant id
 # variable "MICROSOFT_PROVIDER_AUTHENTICATION_TENANT_ID" {
 #   type = string
