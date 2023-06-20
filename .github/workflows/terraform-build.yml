@@ -78,6 +78,11 @@ jobs:
           npm run build --if-present
           npm run test --if-present
 
+      - name: login azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDS}}
+          
       - name: 'Deploy to Azure WebApp'
         uses: azure/webapps-deploy@v2
         with: 
