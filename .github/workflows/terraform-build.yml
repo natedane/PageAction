@@ -54,13 +54,12 @@ jobs:
         working-directory: ./terraform
         run: |
           terraform apply -auto-approve -input=false
-          app_plan = terraform output app_plan
 
   deploy_webapp:
     name: 'deploy_webapp'
     needs: terraform
     env:
-      AZURE_WEBAPP_NAME: nateApp 
+      AZURE_WEBAPP_NAME: nateapp-2023619 
       #AZURE_WEBAPP_PACKAGE_PATH: 'my-app-path'
       NODE_VERSION: 16
     runs-on: ubuntu-latest
@@ -68,7 +67,7 @@ jobs:
     steps:
       - uses: actions/checkout@main
       - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
           
@@ -79,6 +78,11 @@ jobs:
           npm run build --if-present
           npm run test --if-present
 
+      - name: login azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDS}}
+          
       - name: 'Deploy to Azure WebApp'
         uses: azure/webapps-deploy@v2
         with: 
