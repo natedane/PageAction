@@ -12,6 +12,7 @@ export default defineConfig(({ command, mode})=>{
   else
     return{
       plugins: [react()],
-      base: "/PageAction/"
+      base: "/PageAction/",
+      port:8080
     }
 })
