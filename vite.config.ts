@@ -6,8 +6,7 @@ export default defineConfig(({ command, mode})=>{
   if (mode == "prod")
   return{
     plugins: [react()],
-    port:8080,
-    base: "./"
+    port:8080
   }
   else
     return{
