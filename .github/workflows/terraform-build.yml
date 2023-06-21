@@ -108,5 +108,5 @@ jobs:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         slot-name: 'production'
         publish-profile: ${{ steps.tfApply.outputs.app_plan }}
-        package: ./dist
+        package: .
 
