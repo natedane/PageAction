@@ -52,10 +52,7 @@ resource "azurerm_storage_account" "state-sta" {
   access_tier = "Cool"
   account_replication_type = "ZRS"
   enable_https_traffic_only = true
-   
-  lifecycle {
-    prevent_destroy = true
-  }  
+ 
  
 }
 # Create a Storage Container for the Core State File
