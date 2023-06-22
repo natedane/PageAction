@@ -40,10 +40,6 @@ resource "random_string" "tf-name" {
 resource "azurerm_resource_group" "state-rg" {
   name = "rg_tfstorage"
   location = var.location
-  
-  lifecycle {
-    prevent_destroy = true
-  } 
 }
 # Create a Storage Account for the Terraform State File
 resource "azurerm_storage_account" "state-sta" {
