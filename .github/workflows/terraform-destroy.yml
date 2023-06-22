@@ -42,5 +42,5 @@ jobs:
       # Generates an execution plan for Terraform
       - name: Terraform destroy
         working-directory: ./terraform
-        run: terraform destroy -force
+        run: terraform destroy -auto-approve
 
