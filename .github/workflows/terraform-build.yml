@@ -2,8 +2,8 @@ name: 'Terraform Deploy'
 
 on:
   push:
-    branches:
-    - main
+    # branches:
+    # - main
   workflow_dispatch:
     
 permissions:
@@ -55,12 +55,10 @@ jobs:
         run: |
           terraform apply -auto-approve -input=false
 
-  deploy_webapp:
-    name: 'deploy_webapp'
-    needs: terraform
+  build_webapp:
+    name: 'build_webapp'
+    # needs: terraform
     env:
-      AZURE_WEBAPP_NAME: nateapp-2023619 
-      #AZURE_WEBAPP_PACKAGE_PATH: 'my-app-path'
       NODE_VERSION: 16
     runs-on: ubuntu-latest
 
@@ -74,18 +72,39 @@ jobs:
       #build test and install npm project
       - name: npm install, build, and test
         run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
+          npm ci
+          npm run build-production --if-present
 
-      - name: login azure
-        uses: azure/login@v1
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
         with:
+          name: node-app
+          path: ./dist
+  
+  deploy_webapp:
+    name: 'deploy_webapp'
+    needs: build_webapp
+    env:
+      AZURE_WEBAPP_NAME: nateapp-2023619 
+      #AZURE_WEBAPP_PACKAGE_PATH: 'my-app-path'
+      NODE_VERSION: 16
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v3
+      with:
+        name: node-app
+        
+    - name: login azure
+      uses: azure/login@v1
+      with:
           creds: ${{ secrets.AZURE_CREDS}}
           
-      - name: 'Deploy to Azure WebApp'
-        uses: azure/webapps-deploy@v2
-        with: 
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ steps.tfApply.outputs.app_plan }}
-          #package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+    - name: 'Deploy to Azure WebApp'
+      uses: azure/webapps-deploy@v2
+      with: 
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        # publish-profile: ${{ steps.tfApply.outputs.app_plan }}
+        package: .
+

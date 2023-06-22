@@ -90,6 +90,6 @@ resource "azurerm_linux_web_app" "app" {
     }
     always_on = false
     use_32_bit_worker = true
-
+    app_command_line = "pm2 serve /home/site/wwwroot --no-daemon"
   }
 }
